@@ -2,10 +2,14 @@ package com.kasun.restwebservices.User;
 
 import java.util.Date;
 
+
+
 public class User {
     private Integer id;
     private String  name;
     private Date birthdate;
+
+    public User(){};
 
     public User(Integer id , String name , Date bdate){
         super();

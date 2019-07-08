@@ -38,6 +38,8 @@ public class UserDao {
             User customer = it.next();
             if (customer.getId().equals(id)) {
                 return customer;
+            }else{
+                throw new UserNotFoundException("id - " + id);
             }
         }
         return null;
