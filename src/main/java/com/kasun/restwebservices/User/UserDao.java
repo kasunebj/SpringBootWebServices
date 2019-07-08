@@ -31,17 +31,32 @@ public class UserDao {
 ////            User user =(User) users.stream().filter( (u)-> u.getId()==id);
 //            return user;
 //        }
+        User customer = null;
         while (it.hasNext()){
 //            if(it.next().getId()==id){
 //                return it.next();
 //            }
-            User customer = it.next();
+          customer = it.next();
             if (customer.getId().equals(id)) {
                 return customer;
-            }else{
-                throw new UserNotFoundException("id - " + id);
             }
         }
-        return null;
+        if(customer ==null){
+            throw new UserNotFoundException("id-" +id);
+        }
+        return customer;
+    }
+
+    public User DeleteByID(Integer id){
+        Iterator<User> it = users.iterator();
+        while (it.hasNext()){
+            User user = it.next();
+            if (user.getId()==id){
+                users.remove(user);
+                return user;
+            }
+        }
+        return null ;
+
     }
 }
