@@ -4,15 +4,23 @@ package com.kasun.restwebservices.User;
 import com.sun.jndi.toolkit.url.Uri;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Locale;
+
+import static javafx.scene.input.KeyCode.R;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RestController
 public class UserController {
@@ -29,8 +37,16 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public User retrieveUser(@PathVariable Integer id){
-        return userDao.findOne(id);
+    public  Resource<User> retrieveUser(@PathVariable Integer id){
+        User user = userDao.findOne(id);
+        if (user == null){
+            throw new UserNotFoundException("id - "+ id);
+        }
+        Resource<User> resource = new Resource<User>(user);
+        ControllerLinkBuilder linkTo = linkTo(methodOn(this.getClass()).getAll());
+        resource.add(linkTo.withRel("all-users"));
+        return resource;
+
     }
 
     @PostMapping("/users")
