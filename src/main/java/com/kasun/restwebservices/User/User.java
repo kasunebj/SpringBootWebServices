@@ -1,19 +1,24 @@
 package com.kasun.restwebservices.User;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
 
-
+@ApiModel(description = "this includes all the info about the user")
 public class User {
 
     private Integer id;
 
     @Size(min = 2 , message = "name should contain atleast 2 characters")
+    @ApiModelProperty(notes = "name should have atleast 2 characters")
     private String  name;
 
     @Past
+    @ApiModelProperty(notes = "birthdate shouls be in past")
     private Date birthdate;
 
     public User(){};
